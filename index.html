@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ملفي الشخصي | مبرمج </title>
+    <style>
+        /* إعدادات الخطوط والخلفية */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b0f19;
+            color: #ffffff;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* تأثير إضاءة الماوس الخلفية */
+        .cursor-glow {
+            position: fixed;
+            width: 110px;
+            height: 132px;
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.15) 0%, rgba(79, 172, 254, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            transition: width 0.2s, height 0.2s;
+        }
+
+        /* الحاوية الرئيسية */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* الهيدر أو بطاقة التعريف */
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-bottom: 40px;
+        }
+
+        .avatar-container {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar-img {
+            width: 200%;
+            height: 100%;
+            border-radius: 50%; /* هذا هو المنحنى الذي يجعل الصورة تبدو رائعة */
+            object-fit: cover;
+            border: 2px solid #00f2fe;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #00f2fe, #4facfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a0aec0;
+            margin-bottom: 15px;
+        }
+
+        .age-badge {
+            display: inline-block;
+            background: rgba(0, 242, 254, 0.1);
+            color: #00f2fe;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(0, 242, 254, 0.2);
+        }
+
+        /* قسم الخبرات والمهارات */
+        .sections-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .sections-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 242, 254, 0.3);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #00f2fe;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .experience-item {
+            margin-bottom: 20px;
+            border-right: 3px solid #4facfe;
+            padding-right: 15px;
+        }
+
+        .experience-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .exp-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #ffffff;
+        }
+
+        .exp-desc {
+            font-size: 0.95rem;
+            color: #a0aec0;
+            margin-top: 5px;
+            line-height: 1.6;
+        }
+
+        /* أزرار مهارات */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-tag {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .skill-tag:hover {
+            background: #4facfe;
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        /* قسم المشاريع الجديد */
+        .projects-section {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .project-card {
+            background: rgba(11, 15, 25, 0.6);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .project-img-container {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            background: #151c2c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: #4facfe;
+            box-shadow: 0 10px 20px rgba(79, 172, 254, 0.1);
+        }
+
+        .project-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .project-info {
+            padding: 20px;
+        }
+
+        .project-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .project-desc {
+            font-size: 0.9rem;
+            color: #a0aec0;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- دائرة الضوء التي تتبع الماوس -->
+    <div class="cursor-glow" id="glow"></div>
+
+    <div class="container">
+        <!-- الهيدر والتعريف الشخصي -->
+        <header>
+            <div class="avatar-container">
+                <!-- استبدل "profile.jpg" بمسار صورتك الحقيقية -->
+                <img src="profile.jpg" alt="صورتي" class="avatar-img">
+            </div>
+            <h1> محمد عواد</h1>
+            <p class="subtitle">مبرمج شغوف ومطور واجهات ويب عصرية</p>
+            <span class="age-badge">العمر: 16 سنة  </span>
+        </header>
+
+        <!-- شبكة الأقسام -->
+        <div class="sections-grid">
+            <!-- كرت الخبرات -->
+            <div class="card">
+                <h2>💼 خبراتي ومشاريعي</h2>
+                <div class="experience-item">
+                    <p class="exp-title">تطوير المواقع وتصميم الواجهات</p>
+                    <p class="exp-desc">أتعلم وأصمم صفحات ويب حديثة ومتجاوبة مع مؤثرات بصرية ممتعة ومبتكرة.</p>
+                </div>
+                <div class="experience-item">
+                    <p class="exp-title">بناء الهويات البصرية</p>
+                    <p class="exp-desc">تنسيق الألوان وتصميم الأشكال والأنماط الرقمية للمشاريع البرمجية.</p>
+                </div>
+            </div>
+
+            <!-- كرت المهارات -->
+            <div class="card">
+                <h2>🚀 مهاراتي التقنية</h2>
+                <p style="color: #a0aec0; margin-bottom: 20px; line-height: 1.6;">الأدوات واللغات التقنية التي أستخدمها في بناء أفكاري:</p>
+                <div class="skills-container">
+                    <span class="skill-tag">HTML5</span>
+                    <span class="skill-tag">CSS3</span>
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">Responsive Design</span>
+                    <span class="skill-tag">تنسيق الألوان</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم معرض المشاريع الجديد -->
+        <div class="projects-section">
+            <h2>💻 معرض أعمالي ومشاريعي</h2>
+            <div class="projects-grid">
+                
+                <!-- مشروع 1 -->
+                <div class="project-card">
+                    <div class="project-img-container">
+                        <!-- استبدل "project1.jpg" بمسار صورتك الحقيقية -->
+                        <img src="project1.jpg" alt="الموقع الأول">
+                    </div>
+                    <div class="project-info">
+                        <p class="project-title">موقع لاستعراض و بيع العاب الفيديو </p>
+                        <p class="project-desc">تصميم موقع متكامل مخصص لإحصائيات الألعاب مع واجهة تفاعلية مظلمة.</p>
+                    </div>
+                </div>
+
+                <!-- مشروع 2 -->
+                <div class="project-card">
+                    <div class="project-img-container">
+                        <!-- استبدل "project2.jpg" بمسار صورتك الحقيقية -->
+                        <img src="project2.jpg" alt="الموقع الثاني">
+                    </div>
+                    <div class="project-info">
+                        <p class="project-title">موقع لحجز استشارات مع محامين</p>
+                        <p class="project-desc">موقع بتصميم رائع وبقاعدة بيانات كاملة </p>
+                    </div>
+                </div>
+
+                <!-- مشروع 3 -->
+                <div class="project-card">
+                    <div class="project-img-container">
+                        <!-- استبدل "project3.jpg" بمسار صورتك الحقيقية -->
+                        <img src="project3.jpg" alt="الموقع الثالث">
+                    </div>
+                    <div class="project-info">
+                        <p class="project-title">موقع لنشر الابحاث بين الطلاب والدكاترة في الجامعات</p>
+                        <p class="project-desc"> تصميم حديث مع قاعدة بيانات لكل الطلاب والدكاترة</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- كود الجافا سكريبت لتأثير حركة الماوس -->
+    <script>
+        const glow = document.getElementById('glow');
+        
+        document.addEventListener('mousemove', (e) => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
+    </script>
+</body>
+</html>
